@@ -53,8 +53,8 @@ function render() {
     emptyStateDiv.style.display = "block";
     emptyStateText.textContent =
       activeFilter === "All"
-        ? "There are no announcements at the moment. Check back later!"
-        : `No announcements in the ${activeFilter} category.`;
+        ? "Welcome to the Community Noticeboard! 🎉 No announcements have been posted yet, but this is where you'll find all the latest updates from your community. Check back soon for news, events, job opportunities, and important alerts!"
+        : `No announcements in the ${activeFilter} category yet. 📂 This section will show ${activeFilter.toLowerCase()} posts when they're available. Try checking other categories or visit again later for updates!`;
     return;
   }
   emptyStateDiv.style.display = "none";

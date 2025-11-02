@@ -29,12 +29,68 @@ const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/community-noticeboard');
     console.log('✅ MongoDB connected successfully');
+    
+    // Seed database with welcome content if empty
+    await seedWelcomeContent();
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
     console.log('📝 Running in demo mode without database persistence');
     
     // For demo purposes, we'll continue without MongoDB
     // In production, you should have proper error handling
+  }
+};
+
+// Function to add welcome content if database is empty
+const seedWelcomeContent = async () => {
+  try {
+    const count = await Announcement.countDocuments();
+    if (count === 0) {
+      console.log('📝 Seeding database with welcome content...');
+      
+      const welcomeAnnouncements = [
+        {
+          title: '🎉 Welcome to Our Community Noticeboard!',
+          content: 'Hello and welcome! This is your community hub where you can stay updated with the latest announcements, events, job opportunities, and important alerts. Browse through different categories using the filter buttons above, and check back regularly for new updates from your community administrators.',
+          category: 'General',
+          createdAt: new Date(Date.now() - 86400000), // 1 day ago
+          updatedAt: new Date(Date.now() - 86400000)
+        },
+        {
+          title: '📋 How to Use This Noticeboard',
+          content: 'Navigate easily through our announcement categories: General updates, Job postings, Community events, and Important alerts. Each announcement shows the publication date and category. Community administrators can log in to add, edit, or remove announcements as needed.',
+          category: 'General',
+          createdAt: new Date(Date.now() - 43200000), // 12 hours ago
+          updatedAt: new Date(Date.now() - 43200000)
+        },
+        {
+          title: '💼 Sample Job Posting',
+          content: 'We are looking for enthusiastic community members to join our team! This is an example of how job postings will appear on the noticeboard. Interested candidates can contact the administrators for more information about available opportunities.',
+          category: 'Jobs',
+          createdAt: new Date(Date.now() - 21600000), // 6 hours ago
+          updatedAt: new Date(Date.now() - 21600000)
+        },
+        {
+          title: '🎊 Community Event Coming Soon',
+          content: 'Join us for our next community gathering! This is a sample event announcement. Community events, meetings, workshops, and social gatherings will be posted here. Stay tuned for real events and mark your calendars!',
+          category: 'Events',
+          createdAt: new Date(Date.now() - 10800000), // 3 hours ago
+          updatedAt: new Date(Date.now() - 10800000)
+        },
+        {
+          title: '⚠️ Important Community Guidelines',
+          content: 'Please remember to follow our community guidelines for a positive experience for everyone. This is an example of how important alerts and reminders will be shared. Always check the alerts section for critical updates and announcements.',
+          category: 'Alerts',
+          createdAt: new Date(Date.now() - 3600000), // 1 hour ago
+          updatedAt: new Date(Date.now() - 3600000)
+        }
+      ];
+      
+      await Announcement.insertMany(welcomeAnnouncements);
+      console.log('✅ Welcome content added to database');
+    }
+  } catch (error) {
+    console.log('⚠️ Could not seed welcome content:', error.message);
   }
 };
 
@@ -50,23 +106,47 @@ const announcementSchema = new mongoose.Schema({
 
 const Announcement = mongoose.model('Announcement', announcementSchema);
 
-// In-memory storage fallback for demo
+// In-memory storage fallback for demo with rich welcome content
 let memoryAnnouncements = [
   {
     id: '1',
-    title: '🎉 Welcome to Community Noticeboard!',
-    content: 'This is a demo announcement. The admin can add, edit, and delete announcements. Regular users can only view them.',
+    title: '🎉 Welcome to Our Community Noticeboard!',
+    content: 'Hello and welcome! This is your community hub where you can stay updated with the latest announcements, events, job opportunities, and important alerts. Browse through different categories using the filter buttons above, and check back regularly for new updates from your community administrators.',
     category: 'General',
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: new Date(Date.now() - 86400000), // 1 day ago
+    updatedAt: new Date(Date.now() - 86400000)
   },
   {
-    id: '2', 
-    title: '🔧 Database Setup Required',
-    content: 'For full functionality, please connect a MongoDB database by setting MONGODB_URI environment variable.',
+    id: '2',
+    title: '📋 How to Use This Noticeboard',
+    content: 'Navigate easily through our announcement categories: General updates, Job postings, Community events, and Important alerts. Each announcement shows the publication date and category. Community administrators can log in to add, edit, or remove announcements as needed.',
+    category: 'General',
+    createdAt: new Date(Date.now() - 43200000), // 12 hours ago
+    updatedAt: new Date(Date.now() - 43200000)
+  },
+  {
+    id: '3',
+    title: '� Sample Job Posting',
+    content: 'We are looking for enthusiastic community members to join our team! This is an example of how job postings will appear on the noticeboard. Interested candidates can contact the administrators for more information about available opportunities.',
+    category: 'Jobs',
+    createdAt: new Date(Date.now() - 21600000), // 6 hours ago
+    updatedAt: new Date(Date.now() - 21600000)
+  },
+  {
+    id: '4',
+    title: '🎊 Community Event Coming Soon',
+    content: 'Join us for our next community gathering! This is a sample event announcement. Community events, meetings, workshops, and social gatherings will be posted here. Stay tuned for real events and mark your calendars!',
+    category: 'Events',
+    createdAt: new Date(Date.now() - 10800000), // 3 hours ago
+    updatedAt: new Date(Date.now() - 10800000)
+  },
+  {
+    id: '5',
+    title: '⚠️ Important Community Guidelines',
+    content: 'Please remember to follow our community guidelines for a positive experience for everyone. This is an example of how important alerts and reminders will be shared. Always check the alerts section for critical updates and announcements.',
     category: 'Alerts',
-    createdAt: new Date(),
-    updatedAt: new Date()
+    createdAt: new Date(Date.now() - 3600000), // 1 hour ago
+    updatedAt: new Date(Date.now() - 3600000)
   }
 ];
 
