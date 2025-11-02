@@ -68,6 +68,18 @@ let memoryAnnouncements = [
 // Check if MongoDB is connected
 const isMongoConnected = () => mongoose.connection.readyState === 1;
 
+// Admin login endpoint
+app.post('/api/admin/login', (req, res) => {
+  const { password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  
+  if (password === adminPassword) {
+    res.json({ success: true, token: adminPassword });
+  } else {
+    res.status(401).json({ success: false, message: 'Invalid password' });
+  }
+});
+
 // Get all announcements
 app.get('/api/announcements', async (req, res) => {
   try {

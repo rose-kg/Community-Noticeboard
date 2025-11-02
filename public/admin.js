@@ -22,9 +22,10 @@ let editForm = { title: "", content: "", category: "General" };
 const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
 
 function getAuthHeaders() {
+  const token = localStorage.getItem('adminToken') || 'admin123';
   return {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${process.env.ADMIN_PASSWORD || 'admin123'}`
+    'Authorization': `Bearer ${token}`
   };
 }
 
@@ -189,6 +190,7 @@ createForm.onsubmit = async function (e) {
 
 logoutBtn.onclick = function () {
   localStorage.removeItem("adminAuthenticated");
+  localStorage.removeItem("adminToken");
   window.location.href = "admin-login.html";
 };
 
