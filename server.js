@@ -9,6 +9,11 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static('public'));
 
+// Root route - redirect to notices page
+app.get('/', (req, res) => {
+  res.redirect('/notices.html');
+});
+
 // Simple authentication middleware
 const requireAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
