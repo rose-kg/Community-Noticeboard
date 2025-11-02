@@ -28,11 +28,13 @@
     <div id="announcements-grid" class="announcements-grid" style="display:none;"></div>
   </main>
   <a href="admin-login.html" class="admin-link" id="admin-login-link">Admin Login</a>
+  <a href="admin.html" class="admin-link" id="admin-dashboard-link" style="display:none;">Admin Dashboard</a>
   <script src="notices.js"></script>
   <script>
-    // Hide the admin login link if already authenticated
+    // Show appropriate admin link based on authentication status
     if (localStorage.getItem('adminAuthenticated') === 'true') {
       document.getElementById('admin-login-link').style.display = 'none';
+      document.getElementById('admin-dashboard-link').style.display = 'inline-block';
     }
   </script>
 </body>

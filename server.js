@@ -6,6 +6,16 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static('public'));
+
+// Simple authentication middleware
+const requireAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || authHeader !== 'Bearer admin123') {
+    return res.status(401).json({ error: 'Unauthorized access. Admin authentication required.' });
+  }
+  next();
+};
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/community-noticeboard');
@@ -41,8 +51,8 @@ app.get('/api/announcements/:id', async (req, res) => {
   }
 });
 
-// Create announcement
-app.post('/api/announcements', async (req, res) => {
+// Create announcement (admin only)
+app.post('/api/announcements', requireAuth, async (req, res) => {
   try {
     const { title, content, category } = req.body;
     const now = new Date();
@@ -54,8 +64,8 @@ app.post('/api/announcements', async (req, res) => {
   }
 });
 
-// Update announcement
-app.put('/api/announcements/:id', async (req, res) => {
+// Update announcement (admin only)
+app.put('/api/announcements/:id', requireAuth, async (req, res) => {
   try {
     const { title, content, category } = req.body;
     const updated = await Announcement.findByIdAndUpdate(
@@ -70,8 +80,8 @@ app.put('/api/announcements/:id', async (req, res) => {
   }
 });
 
-// Delete announcement
-app.delete('/api/announcements/:id', async (req, res) => {
+// Delete announcement (admin only)
+app.delete('/api/announcements/:id', requireAuth, async (req, res) => {
   try {
     const deleted = await Announcement.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ error: 'Not found' });

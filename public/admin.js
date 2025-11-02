@@ -18,6 +18,14 @@ let announcements = [];
 let editingId = null;
 let editForm = { title: "", content: "", category: "General" };
 
+// Helper function to get auth headers
+function getAuthHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer admin123'
+  };
+}
+
 function showSuccess(msg) {
   successMessage.textContent = msg;
   successMessage.style.display = "block";
@@ -123,7 +131,7 @@ window.saveEdit = async function (id) {
   try {
     const response = await fetch(`http://localhost:3001/api/announcements/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify(editForm),
     });
     if (!response.ok) throw new Error('Failed to update');
@@ -139,7 +147,10 @@ window.saveEdit = async function (id) {
 window.deleteAnnouncement = async function (id) {
   if (!confirm("Are you sure you want to delete this announcement?")) return;
   try {
-    const response = await fetch(`http://localhost:3001/api/announcements/${id}`, { method: 'DELETE' });
+    const response = await fetch(`http://localhost:3001/api/announcements/${id}`, { 
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
     if (!response.ok) throw new Error('Failed to delete');
     showSuccess("Announcement deleted successfully!");
     await fetchAnnouncements();
@@ -161,7 +172,7 @@ createForm.onsubmit = async function (e) {
   try {
     const response = await fetch('http://localhost:3001/api/announcements', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders(),
       body: JSON.stringify({ title, content, category }),
     });
     if (!response.ok) throw new Error('Failed to create');
