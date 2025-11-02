@@ -1,3 +1,6 @@
+
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+
 const filters = ["All", "Jobs", "Events", "Alerts", "General"];
 let announcements = [];
 let activeFilter = "All";
@@ -78,7 +81,7 @@ async function fetchAnnouncements() {
   loading = true;
   render();
   try {
-    const response = await fetch('http://localhost:3001/api/announcements');
+    const response = await fetch(`${API_BASE}/api/announcements`);
     if (!response.ok) throw new Error('Failed to fetch');
     announcements = await response.json();
   } catch (e) {

@@ -18,11 +18,13 @@ let announcements = [];
 let editingId = null;
 let editForm = { title: "", content: "", category: "General" };
 
-// Helper function to get auth headers
+
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001' : '';
+
 function getAuthHeaders() {
   return {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer admin123'
+    'Authorization': `Bearer ${process.env.ADMIN_PASSWORD || 'admin123'}`
   };
 }
 
@@ -129,7 +131,7 @@ window.cancelEdit = function () {
 
 window.saveEdit = async function (id) {
   try {
-    const response = await fetch(`http://localhost:3001/api/announcements/${id}`, {
+    const response = await fetch(`${API_BASE}/api/announcements/${id}`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(editForm),
@@ -147,7 +149,7 @@ window.saveEdit = async function (id) {
 window.deleteAnnouncement = async function (id) {
   if (!confirm("Are you sure you want to delete this announcement?")) return;
   try {
-    const response = await fetch(`http://localhost:3001/api/announcements/${id}`, { 
+    const response = await fetch(`${API_BASE}/api/announcements/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeaders()
     });
@@ -170,7 +172,7 @@ createForm.onsubmit = async function (e) {
     return;
   }
   try {
-    const response = await fetch('http://localhost:3001/api/announcements', {
+    const response = await fetch(`${API_BASE}/api/announcements`, {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify({ title, content, category }),
@@ -193,7 +195,7 @@ logoutBtn.onclick = function () {
 
 async function fetchAnnouncements() {
   try {
-    const response = await fetch('http://localhost:3001/api/announcements');
+    const response = await fetch(`${API_BASE}/api/announcements`);
     if (!response.ok) throw new Error('Failed to fetch');
     announcements = await response.json();
   } catch (e) {
