@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Noticeboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="notices.css">
+</head>
+<body>
+  <header class="noticeboard-header">
+    <div class="header-content">
+      <h1 class="header-title">Community Noticeboard</h1>
+      <p class="header-subtitle">Stay connected with the latest announcements, events, and opportunities</p>
+    </div>
+  </header>
+  <main class="noticeboard-container">
+    <div class="filter-section">
+      <span class="filter-label">Filter by:</span>
+      <div class="filter-buttons" id="filter-buttons"></div>
+    </div>
+    <div id="loading" class="loading-container"><div class="loading-spinner"></div></div>
+    <div id="empty-state" class="empty-state" style="display:none;">
+      <div class="empty-state-icon">📋</div>
+      <h2 class="empty-state-title">No announcements found</h2>
+      <p class="empty-state-text" id="empty-state-text"></p>
+    </div>
+    <div id="announcements-grid" class="announcements-grid" style="display:none;"></div>
+  </main>
+  <a href="admin-login.html" class="admin-link" id="admin-login-link">Admin Login</a>
+  <script src="notices.js"></script>
+  <script>
+    // Hide the admin login link if already authenticated
+    if (localStorage.getItem('adminAuthenticated') === 'true') {
+      document.getElementById('admin-login-link').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

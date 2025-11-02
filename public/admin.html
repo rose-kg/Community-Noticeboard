@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-dashboard">
+    <header class="admin-header">
+      <div class="admin-header-content">
+        <h1 class="admin-header-title">Admin Dashboard</h1>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <a href="notices.html" style="color: var(--color-primary); text-decoration: none; font-weight: 600;">View Noticeboard</a>
+          <button id="logout-btn" class="logout-button">Logout</button>
+        </div>
+      </div>
+    </header>
+    <main class="admin-container">
+      <div id="success-message" class="success-message" style="display:none;"></div>
+      <div id="error-message" class="error-message" style="display:none;"></div>
+      <section class="admin-section">
+        <h2 class="section-title">Create New Announcement</h2>
+        <form id="create-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" id="title" class="form-input" placeholder="Enter announcement title" required />
+            </div>
+            <div class="form-group">
+              <label for="category" class="form-label">Category</label>
+              <select id="category" class="form-select" required>
+                <option value="General">General</option>
+                <option value="Jobs">Jobs</option>
+                <option value="Events">Events</option>
+                <option value="Alerts">Alerts</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="content" class="form-label">Content</label>
+            <textarea id="content" class="form-textarea" placeholder="Enter announcement content" required></textarea>
+          </div>
+          <button type="submit" class="submit-button">Create Announcement</button>
+        </form>
+      </section>
+      <section class="admin-section">
+        <h2 class="section-title">Manage Announcements</h2>
+        <div id="announcements-list" class="announcements-list"></div>
+      </section>
+    </main>
+  </div>
+  <script src="admin.js"></script>
+</body>
+</html>

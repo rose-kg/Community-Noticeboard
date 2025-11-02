@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-login-container">
+    <div class="admin-login-card">
+      <div class="admin-login-header">
+        <div class="admin-login-icon">🔐</div>
+        <h1 class="admin-login-title">Admin Login</h1>
+        <p class="admin-login-subtitle">Enter your password to access the dashboard</p>
+      </div>
+      <form id="login-form" class="admin-login-form">
+        <div id="login-error" class="error-message" style="display:none;"></div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" class="form-input" placeholder="Enter admin password" required />
+        </div>
+        <button type="submit" class="submit-button" id="login-btn">Login</button>
+      </form>
+      <a href="notices.html" class="back-link">&larr; Back to Noticeboard</a>
+      <div class="demo-credentials">
+        <strong>Demo credentials:</strong> Password is <code>admin123</code>
+      </div>
+    </div>
+  </div>
+  <script src="admin-login.js"></script>
+</body>
+</html>
